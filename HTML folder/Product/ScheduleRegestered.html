@@ -1,0 +1,267 @@
+<!-- Page 2: page2.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Classes - Page 2</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+        }
+
+        h2 {
+            color: #61dafb;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .add-schedule-button, .update-message-button, .update-schedule-button, .delete-schedule-button, .go-to-page3-button {
+            background-color: #61dafb;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .update-message-button:hover, .update-schedule-button:hover, .delete-schedule-button:hover, .go-to-page3-button:hover {
+            background-color: #42a5f5;
+        }
+
+        /* Styling for the list of created schedules */
+        #scheduleList {
+            list-style: none;
+            padding: 0;
+        }
+
+        .schedule-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .schedule-buttons {
+            display: flex;
+        }
+
+        .schedule-buttons button {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Schedule Class - Page 2</h2>
+
+        <!-- Input fields for schedule information -->
+        <div class="form-group">
+            <label for="className">Class Name:</label>
+            <input type="text" id="className" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="classTime">Class Time:</label>
+            <input type="text" id="classTime" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="classType">Class Type:</label>
+            <input type="text" id="classType" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="tutorName">Tutor Name:</label>
+            <input type="text" id="tutorName" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Duration (months):</label>
+            <input type="number" id="duration" class="form-control">
+        </div>
+
+        <!-- Button to add a new schedule -->
+        <button type="button" class="add-schedule-button" onclick="addSchedule()">Add Schedule</button>
+
+        <hr>
+
+        <!-- Input field for updating the scrolling message -->
+        <div class="form-group">
+            <label for="scrollingMessage">Update Scrolling Message:</label>
+            <input type="text" id="scrollingMessage" class="form-control">
+        </div>
+
+        <!-- Button to update the scrolling message and redirect to Page 3 -->
+        <button type="button" class="update-message-button" onclick="updateScrollingMessage()">Update Scrolling Message</button>
+
+        <hr>
+
+        <!-- Display created schedules with update and delete buttons -->
+        <h3>Created Schedules</h3>
+        <ul id="scheduleList"></ul>
+
+        <hr>
+
+        <!-- Button to navigate to Page 3 -->
+        <button type="button" class="go-to-page3-button" onclick="navigateToPage3()">Go to Page 3</button>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to add a new schedule
+        function addSchedule() {
+            // Retrieve schedule information from input fields
+            var className = document.getElementById("className").value;
+            var classTime = document.getElementById("classTime").value;
+            var classType = document.getElementById("classType").value;
+            var tutorName = document.getElementById("tutorName").value;
+            var duration = document.getElementById("duration").value;
+
+            // Validate input
+            if (!className || !classTime || !classType || !tutorName || !duration) {
+                alert("Please fill in all the fields.");
+                return;
+            }
+
+            // Create a schedule object
+            var schedule = {
+                className: className,
+                classTime: classTime,
+                classType: classType,
+                tutorName: tutorName,
+                duration: duration
+            };
+
+            // Retrieve existing schedules from localStorage or initialize an empty array
+            var scheduledClasses = JSON.parse(localStorage.getItem('scheduledClasses')) || [];
+
+            // Add the new schedule to the array
+            scheduledClasses.push(schedule);
+
+            // Save the updated array back to localStorage
+            localStorage.setItem('scheduledClasses', JSON.stringify(scheduledClasses));
+
+            // Refresh the displayed schedule list
+            displayCreatedSchedules();
+        }
+
+        // Function to update the scrolling message and redirect to Page 3
+        function updateScrollingMessage() {
+            var updatedMessage = document.getElementById("scrollingMessage").value;
+
+            // Redirect to Page 3 with the updated scrolling message as a parameter
+            window.location.href = "page3.html?message=" + encodeURIComponent(updatedMessage);
+        }
+
+        // Function to navigate to Page 3
+        function navigateToPage3() {
+            // Redirect to Page 3
+            window.location.href = "page3.html";
+        }
+
+        // Function to display created schedules
+        function displayCreatedSchedules() {
+            var scheduleListContainer = document.getElementById("scheduleList");
+            scheduleListContainer.innerHTML = '';
+
+            // Retrieve existing schedules from localStorage or initialize an empty array
+            var scheduledClasses = JSON.parse(localStorage.getItem('scheduledClasses')) || [];
+
+            scheduledClasses.forEach(function (classInfo, index) {
+                var scheduleItem = document.createElement("li");
+                scheduleItem.classList.add("schedule-item");
+
+                scheduleItem.innerHTML = `
+                    <span><strong>Class Name:</strong> ${classInfo.className}</span>
+                    <span><strong>Class Time:</strong> ${classInfo.classTime}</span>
+                    <span><strong>Class Type:</strong> ${classInfo.classType}</span>
+                    <span><strong>Tutor Name:</strong> ${classInfo.tutorName}</span>
+                    <span><strong>Duration:</strong> ${classInfo.duration} months</span>
+
+                    <div class="schedule-buttons">
+                        <button class="update-schedule-button" onclick="updateSchedule(${index})">Update</button>
+                        <button class="delete-schedule-button" onclick="deleteSchedule(${index})">Delete</button>
+                    </div>
+                `;
+
+                scheduleListContainer.appendChild(scheduleItem);
+            });
+        }
+
+        // Function to update a schedule
+        function updateSchedule(index) {
+            // Placeholder logic to update the schedule based on the index
+            var scheduledClasses = JSON.parse(localStorage.getItem('scheduledClasses')) || [];
+            var updatedSchedule = prompt("Enter updated class information (JSON format):");
+
+            if (updatedSchedule) {
+                // Update the schedule in the array
+                scheduledClasses[index] = JSON.parse(updatedSchedule);
+
+                // Save the updated array back to localStorage
+                localStorage.setItem('scheduledClasses', JSON.stringify(scheduledClasses));
+
+                // Refresh the displayed schedule list
+                displayCreatedSchedules();
+            }
+        }
+
+        // Function to delete a schedule
+        function deleteSchedule(index) {
+            // Placeholder logic to delete the schedule based on the index
+            var scheduledClasses = JSON.parse(localStorage.getItem('scheduledClasses')) || [];
+
+            // Remove the schedule from the array
+            scheduledClasses.splice(index, 1);
+
+            // Save the updated array back to localStorage
+            localStorage.setItem('scheduledClasses', JSON.stringify(scheduledClasses));
+
+            // Refresh the displayed schedule list
+            displayCreatedSchedules();
+        }
+
+        // Display created schedules on page load
+        displayCreatedSchedules();
+    </script>
+</body>
+</html>

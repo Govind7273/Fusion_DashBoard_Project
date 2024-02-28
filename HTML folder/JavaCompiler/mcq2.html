@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java 8 Feature Quiz</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .result-container, .improvement-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .question-container {
+      background-color: #3498db;
+      color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .question-number {
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .options-container {
+      margin-top: 15px;
+    }
+    .options-container .form-check {
+      margin-bottom: 10px;
+    }
+    .btn-primary {
+      background-color: #2ecc71;
+      border-color: #2ecc71;
+    }
+    .btn-primary:hover {
+      background-color: #27ae60;
+      border-color: #27ae60;
+    }
+    .btn-danger {
+      background-color: #e74c3c;
+      border-color: #e74c3c;
+    }
+    .btn-danger:hover {
+      background-color: #c0392b;
+      border-color: #c0392b;
+    }
+    .status-cool {
+      color: #3498db;
+    }
+    .status-pro {
+      color: #9b59b6;
+    }
+    .status-pro-max {
+      color: #e74c3c;
+    }
+    .status-ultra-pro {
+      color: #f39c12;
+    }
+    .status-ultra-pro-max {
+      color: #2ecc71;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h2 class="text-center mb-4">Java 8 Feature Quiz</h2>
+
+  <div id="question-container" class="question-container">
+    <!-- Questions will be dynamically added here -->
+  </div>
+
+  <div id="result-container" style="display: none;" class="result-container">
+    <h3 class="text-center mb-4">Quiz Results</h3>
+    <ul id="result-list" class="list-group">
+      <!-- Results will be dynamically added here -->
+    </ul>
+    <p id="quiz-score" class="text-center mt-4"></p>
+    <p id="user-status" class="text-center mt-4"></p>
+    <div class="text-center mt-4">
+      <button type="button" class="btn btn-primary" onclick="showImprovement()">Show Improvement Areas</button>
+    </div>
+  </div>
+
+  <div id="improvement-container" style="display: none;" class="improvement-container">
+    <h3 class="text-center mb-4">Improvement Areas</h3>
+    <ul id="improvement-list" class="list-group">
+      <!-- Improvement areas will be dynamically added here -->
+    </ul>
+  </div>
+
+  <div id="timer" class="text-center mb-4"></div>
+</div>
+
+<script>   
+  const quizData = [
+    {
+      topic: 'Lambda Expressions',
+      question: 'What is a Lambda expression in Java 8?',
+      options: ['A new data type introduced in Java 8', 'A concise way to represent an anonymous function', 'A method for handling exceptions', 'A tool for encoding and decoding Base64'],
+      correctAnswer: 'A concise way to represent an anonymous function'
+    },
+    {  
+      topic: 'Lambda Expressions',
+      question: 'What is the main functionality of Lambda expressions in Java 8?',
+      options: ['Enable to treat functionality as a method argument, or code as data', 'Provide a way to create static methods in interfaces', 'Handle NullPointerExceptions', 'Use the Stream API'],
+      correctAnswer: 'Enable to treat functionality as a method argument, or code as data'
+    },
+    {
+      topic: 'Lambda Expressions',
+      question: 'How many parameters can a Lambda expression have in Java 8?',
+      options: ['None', 'One', 'Two', 'All of the above'],
+      correctAnswer: 'All of the above'
+    },
+    {
+      topic: 'Static Methods in Interfaces',
+      question: 'What is a static method in an interface in Java 8?',
+      options: ['A method that can be overridden by implementing classes', 'A method that is automatically inherited by implementing classes', 'A method that cannot be overridden by implementing classes', 'A method that can be accessed without an instance of the interface'],
+      correctAnswer: 'A method that cannot be overridden by implementing classes'
+    },
+    {
+      topic: 'Static Methods in Interfaces',
+      question: 'Why were static methods introduced to interfaces in Java 8?',
+      options: ['To provide a way to create default methods in interfaces', 'To keep everything in one place without creating any additional classes', 'To provide a way to implement functional interfaces', 'To provide a way to use the Stream API'],
+      correctAnswer: 'To keep everything in one place without creating any additional classes'
+    },
+    {
+      topic: 'Static Methods in Interfaces',
+      question: 'Can static methods in an interface be inherited in the classes that implement the interface?',
+      options: ['Yes', 'No'],
+      correctAnswer: 'No'
+    },
+  ];
+
+  const quizContainer = document.getElementById('question-container');
+  const resultContainer = document.getElementById('result-container');
+  const resultList = document.getElementById('result-list');
+  const improvementContainer = document.getElementById('improvement-container');
+  const improvementList = document.getElementById('improvement-list');
+  const timerElement = document.getElementById('timer');
+  const quizScoreElement = document.getElementById('quiz-score');
+  const userStatusElement = document.getElementById('user-status');
+  let currentQuestionIndex = 0;
+  let correctAnswers = 0;
+  let topicScores = {}; // To store correct answers per topic
+  let secondsRemaining = 30;
+  let timer;
+
+  function startQuiz() {
+    displayQuestion();
+    startTimer();
+  }
+
+  function displayQuestion() {
+    const currentQuestion = quizData[currentQuestionIndex];
+    if (!currentQuestion) {
+      endQuiz();
+      return;
+    }
+
+    const optionsHtml = currentQuestion.options.map((option, index) => `
+      <div class="form-check">
+        <input type="radio" class="form-check-input" name="answer" value="${option}">
+        <label class="form-check-label">${option}</label>
+      </div>
+    `).join('');
+
+    const questionHtml = `
+      <div class="options-container">
+        <h4 class="mb-3">${currentQuestion.topic}</h4>
+        <p class="question-number">Q${currentQuestionIndex + 1}:</p>
+        <p>${currentQuestion.question}</p>
+        <form id="quiz-form">
+          ${optionsHtml}
+        </form>
+        <button type="button" class="btn btn-primary mt-3" onclick="checkAnswer()">Next</button>
+      </div>
+    `;
+
+    quizContainer.innerHTML = questionHtml;
+  }  
+
+  function startTimer() {
+    timer = setInterval(() => {
+      timerElement.textContent = `Time remaining: ${secondsRemaining} seconds`;
+      secondsRemaining--;
+
+      if (secondsRemaining < 0) {
+        checkAnswer();
+      }
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(timer);
+    timerElement.textContent = '';
+  }
+
+  function checkAnswer() {
+    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    const currentQuestion = quizData[currentQuestionIndex];
+
+    if (selectedAnswer && selectedAnswer.value === currentQuestion.correctAnswer) {
+      // Correct answer
+      resultList.innerHTML += `<li class="list-group-item text-success">${currentQuestion.topic}: Q${currentQuestionIndex + 1} - Correct</li>`;
+      correctAnswers++;
+
+      // Update topic scores
+      if (!topicScores[currentQuestion.topic]) {
+        topicScores[currentQuestion.topic] = 1;
+      } else {
+        topicScores[currentQuestion.topic]++;
+      }
+    } else {
+      // Incorrect answer
+      resultList.innerHTML += `<li class="list-group-item text-danger">${currentQuestion.topic}: Q${currentQuestionIndex + 1} - Incorrect (Correct answer: ${currentQuestion.correctAnswer})</li>`;
+    }
+
+    currentQuestionIndex++;
+    secondsRemaining = 30;
+
+    if (currentQuestionIndex < quizData.length) {
+      displayQuestion();
+    } else {
+      endQuiz();
+    }
+  }
+
+  function endQuiz() {
+    stopTimer();
+    displayResult();
+    resultContainer.style.display = 'block';
+    quizContainer.style.display = 'none';
+    calculateUserStatus();
+  }
+
+  function displayResult() {
+    const percentage = (correctAnswers / quizData.length) * 100;
+    quizScoreElement.innerHTML = `<p>Your score: ${percentage.toFixed(2)}%</p>`;
+  }
+
+  function calculateUserStatus() {
+    const topicStatus = {};
+    for (const topic in topicScores) {
+      const topicPercentage = (topicScores[topic] / countQuestionsForTopic(topic)) * 100;
+      topicStatus[topic] = topicPercentage;
+
+      const statusElement = document.querySelector(`.status-${topic}`);
+      if (statusElement) {
+        setTopicStatusColor(statusElement, topicPercentage);
+      }
+    }
+
+    const totalTopics = Object.keys(topicStatus).length;
+    let totalPercentage = 0;
+
+    for (const topic in topicStatus) {
+      totalPercentage += topicStatus[topic];
+    }
+
+    const averagePercentage = totalPercentage / totalTopics;
+    userStatusElement.innerHTML = `<p>Average Score: ${averagePercentage.toFixed(2)}%</p>`;
+
+    let status = '';
+    if (averagePercentage < 20) {
+      status = 'Cool - work Hard (You are the Next Sunshine)';
+    } else if (averagePercentage >= 20 && averagePercentage < 40) {
+      status = 'Pro - You need to be the Next Pro Max Champ';
+    } else if (averagePercentage >= 40 && averagePercentage < 60) {
+      status = 'Pro Max - Just need one more step to Ultra Pro in Java';
+    } else if (averagePercentage >= 60 && averagePercentage < 80) {
+      status = 'Ultra Pro - You are doing good; do some coding practice; you are close to success';
+    } else {
+      status = 'Ultra Pro Max - Champion! You will be the next developer; practice to place in Google';
+    }
+
+    userStatusElement.innerHTML += `<p>Status: ${status}</p>`;
+  }
+
+  function countQuestionsForTopic(topic) {
+    return quizData.filter(question => question.topic === topic).length;
+  }
+
+  function showImprovement() {
+    resultContainer.style.display = 'none';
+    improvementContainer.style.display = 'block';
+    displayImprovementAreas();
+  }
+
+  function displayImprovementAreas() {
+    const improvementAreas = [];
+    for (const topic in topicScores) {
+      const topicPercentage = (topicScores[topic] / countQuestionsForTopic(topic)) * 100;
+      if (topicPercentage < 70) {
+        improvementAreas.push({ topic, percentage: topicPercentage });
+      }
+    }
+
+    improvementList.innerHTML = improvementAreas.map(area => `
+      <li class="list-group-item">
+        <span class="mr-2">${area.topic}</span>
+        <span class="status-${area.topic}">${getTopicStatus(area.percentage)}</span>
+      </li>
+    `).join('');
+  }
+
+  function setTopicStatusColor(element, percentage) {
+    const status = getTopicStatus(percentage);
+    element.style.color = getColorForStatus(status);
+  }
+
+  function getTopicStatus(percentage) {
+    if (percentage < 20) {
+      return 'cool';
+    } else if (percentage >= 20 && percentage < 40) {
+      return 'pro';
+    } else if (percentage >= 40 && percentage < 60) {
+      return 'pro-max';
+    } else if (percentage >= 60 && percentage < 80) {
+      return 'ultra-pro';
+    } else {
+      return 'ultra-pro-max';
+    }
+  }
+
+  function getColorForStatus(status) {
+    switch (status) {
+      case 'cool':
+        return '#3498db';
+      case 'pro':
+        return '#9b59b6';
+      case 'pro-max':
+        return '#e74c3c';
+      case 'ultra-pro':
+        return '#f39c12';
+      case 'ultra-pro-max':
+        return '#2ecc71';
+      default:
+        return '#000';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', startQuiz);
+</script>
+
+</body>
+</html>
+
+
+ 

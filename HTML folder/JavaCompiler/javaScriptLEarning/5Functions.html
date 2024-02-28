@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div>
+        <input type="text" id="name" name="fname"><br>
+        <button  type="submit" onclick="greet()" value="Submit"></button>
+    </div>
+
+    <div id="op"></div>
+
+</body>
+
+<script>
+    function greet() {
+        alert(document.getElementById('name').value)
+
+        var user = document.getElementById('name').value;
+        var pass = document.getElementById('pass').value;
+
+        if(user.equals("abc")){
+
+document.getElementById('op').innerHTML="You are loged in";
+
+        }
+
+
+
+
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Page 2 - Coder Video Page 2050</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #282c35;
+      color: #fff;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      color: #61dafb;
+      padding: 20px;
+      text-align: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav {
+      background-color: #282c35;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #61dafb;
+    }
+
+    main {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px;
+    }
+
+    .video-list {
+      flex-basis: 30%;
+      padding: 0 10px;
+      overflow-y: auto;
+      max-height: calc(100vh - 150px);
+    }
+
+    .video-box {
+      background-color: #333;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .video-name,
+    .video-summary,
+    .video-duration {
+      color: #61dafb;
+    }
+
+    .download-button {
+      background-color: #61dafb;
+      color: #282c35;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .video-player {
+      flex-basis: 65%;
+    }
+
+    video {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+    }
+
+    footer {
+      background-color: #282c35;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    footer a {
+      color: #61dafb;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: #45a8e5;
+    }
+
+    .dark-mode {
+      background-color: #1f1f1f;
+    }
+
+    .dark-mode header, .dark-mode nav, .dark-mode footer {
+      background-color: #333;
+      color: #ccc;
+    }
+
+    .dark-mode nav a, .dark-mode footer a {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- <h1>Coder Video Page 2050</h1>
+    <p>Watch coding tutorials and learn new skills</p> -->
+  </header>
+
+  <!-- <nav>
+    <a href="#home">Home</a>
+    <a href="#tutorials">Tutorials</a>
+    <a href="#snippets">Code Snippets</a>
+    <a href="#about">About Us</a>
+    <a href="#videos">Videos</a>
+    <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  </nav> -->
+
+  <main>
+    <div class="video-list" id="videoList">
+      <!-- Video list will be populated dynamically using JavaScript -->
+    </div>
+    <div class="video-player" id="videoPlayer">
+      <input type="number" id="resizeInput" placeholder="Enter video width" />
+      <button onclick="resizeVideo()">Resize Video</button>
+      <video controls id="player">
+        <!-- Video source will be set dynamically using JavaScript -->
+      </video>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2050 Coder Video Page. All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const videoList = document.getElementById('videoList');
+
+      // Function to load videos from local storage
+      function loadVideos() {
+        const videos = JSON.parse(localStorage.getItem('videos')) || [];
+        videoList.innerHTML = ''; // Clear previous list
+
+        videos.forEach(video => {
+          const videoBox = document.createElement('div');
+          videoBox.className = 'video-box';
+          videoBox.addEventListener('click', () => playVideo(video.url));
+
+          const videoName = document.createElement('div');
+          videoName.className = 'video-name';
+          videoName.textContent = `Name: ${video.name}`;
+
+          const videoSummary = document.createElement('div');
+          videoSummary.className = 'video-summary';
+          videoSummary.textContent = `Summary: ${video.summary}`;
+
+          const videoDuration = document.createElement('div');
+          videoDuration.className = 'video-duration';
+          videoDuration.textContent = `Duration: ${video.duration}`;
+
+          const downloadButton = document.createElement('button');
+          downloadButton.className = 'download-button';
+          downloadButton.textContent = 'Download Notes';
+          downloadButton.addEventListener('click', (event) => {
+            // Preventing the click event from propagating to the video box
+            event.stopPropagation();
+            downloadNotes(video.name, video.summary, video.duration);
+          });
+
+          videoBox.appendChild(videoName);
+          videoBox.appendChild(videoSummary);
+          videoBox.appendChild(videoDuration);
+          videoBox.appendChild(downloadButton);
+          videoList.appendChild(videoBox);
+        });
+      }
+
+      // Load videos when the page is loaded
+      loadVideos();
+
+      // Function to play video
+      function playVideo(url) {
+        const videoPlayer = document.getElementById('player');
+        videoPlayer.src = url;
+        videoPlayer.load();
+        videoPlayer.play();
+      }
+
+      // Function to resize video based on user input
+      window.resizeVideo = function () {
+        const resizeInput = document.getElementById('resizeInput');
+        const width = parseInt(resizeInput.value, 10);
+
+        if (!isNaN(width) && width > 0) {
+          const videoPlayer = document.getElementById('player');
+          videoPlayer.style.width = width + 'px';
+        } else {
+          alert('Please enter a valid width.');
+        }
+      };
+
+      // Function to download notes
+      function downloadNotes(name, summary, duration) {
+        const notesContent = `Video: ${name}\nSummary: ${summary}\nDuration: ${duration}`;
+        const blob = new Blob([notesContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${name}_notes.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      // Function to toggle dark mode
+      window.toggleDarkMode = function () {
+        const body = document.body;
+        const header = document.querySelector('header');
+        const nav = document.querySelector('nav');
+        const footer = document.querySelector('footer');
+
+        body.classList.toggle('dark-mode');
+        header.classList.toggle('dark-mode');
+        nav.classList.toggle('dark-mode');
+        footer.classList.toggle('dark-mode');
+      };
+
+      // Listen for the custom event triggered when a new video is added
+      window.addEventListener('addVideo', function (event) {
+        const newVideoData = event.detail;
+
+        // Create a new video box and append it to the video list
+        const videoBox = document.createElement('div');
+        videoBox.className = 'video-box';
+        videoBox.addEventListener('click', () => playVideo(newVideoData.url));
+
+        const videoName = document.createElement('div');
+        videoName.className = 'video-name';
+        videoName.textContent = `Name: ${newVideoData.name}`;
+
+        const videoSummary = document.createElement('div');
+        videoSummary.className = 'video-summary';
+        videoSummary.textContent = `Summary: ${newVideoData.summary}`;
+
+        const videoDuration = document.createElement('div');
+        videoDuration.className = 'video-duration';
+        videoDuration.textContent = `Duration: ${newVideoData.duration}`;
+
+        const downloadButton = document.createElement('button');
+        downloadButton.className = 'download-button';
+        downloadButton.textContent = 'Download Notes';
+        downloadButton.addEventListener('click', (event) => {
+          // Preventing the click event from propagating to the video box
+          event.stopPropagation();
+          downloadNotes(newVideoData.name, newVideoData.summary, newVideoData.duration);
+        });
+
+        videoBox.appendChild(videoName);
+        videoBox.appendChild(videoSummary);
+        videoBox.appendChild(videoDuration);
+        videoBox.appendChild(downloadButton);
+        videoList.appendChild(videoBox);
+      });
+    });
+  </script>
+</body>
+</html>

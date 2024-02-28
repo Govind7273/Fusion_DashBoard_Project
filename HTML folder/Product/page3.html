@@ -1,0 +1,184 @@
+<!-- Page 3: page3.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Classes - Page 3</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            position: relative;
+        }
+
+        h2 {
+            color: #61dafb;
+            margin-bottom: 20px;
+        }
+
+        .card-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: -10px;
+            z-index: 1;
+        }
+
+        .card {
+            width: calc(33.33% - 20px);
+            margin: 10px;
+            border: 1px solid #2c2c2c;
+            border-radius: 0.25rem;
+            background-color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: #212121;
+            color: #61dafb;
+            text-align: center;
+            padding: 10px;
+            font-size: 1.2rem;
+        }
+
+        .card-body {
+            color: #fff;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        .redirect-button {
+            background-color: #61dafb;
+            color: #fff;
+            border: none;
+            margin-top: 20px;
+            transition: background-color 0.3s ease-in-out;
+            z-index: 1;
+        }
+
+        .redirect-button:hover {
+            background-color: #42a5f5;
+        }
+
+        /* Scrolling message styles */
+        .scrolling-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            z-index: 0;
+            background-color: #1e1e1e;
+        }
+
+        .scrolling-text {
+            animation: scrollText 25s linear infinite;
+            background-color: #1e1e1e;
+            padding: 10px;
+        }
+
+        @keyframes scrollText {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+     
+        <div class="scrolling-message" id="scrollingMessage">
+            <div class="scrolling-text">
+                Hurry! Avail 30% discount on registration. <a href="Regestration.html">Register now</a>!
+            </div>
+        </div>
+
+        <h2>Our Live Batches</h2>
+
+        <!-- Display all scheduled classes in Bootstrap card format -->
+        <div class="card-list" id="cardList"></div>
+
+        <!-- Redirect to Page 2 button -->
+        <button type="button" class="btn btn-primary redirect-button" onclick="redirectToPage2()">Go to Page 2</button>
+        
+        <!-- Marquee for scrolling text -->
+        <marquee behavior="scroll" direction="right" scrollamount="10">
+            Hurry! Avail 30% discount on registration. <a href="Regestration.html">Register now</a>!
+        </marquee>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to retrieve and display schedules from localStorage
+        function displayScheduledClassesOnPageThree() {
+            var cardListContainer = document.getElementById("cardList");
+            cardListContainer.innerHTML = '';
+
+            // Retrieve existing schedules from localStorage or initialize an empty array
+            var scheduledClasses = JSON.parse(localStorage.getItem('scheduledClasses')) || [];
+
+            scheduledClasses.forEach(function (classInfo) {
+                var card = document.createElement("div");
+                card.classList.add("card");
+
+                var cardHeader = document.createElement("div");
+                cardHeader.classList.add("card-header");
+                cardHeader.innerText = classInfo.className;
+
+                var cardBody = document.createElement("div");
+                cardBody.classList.add("card-body");
+                cardBody.innerHTML = `
+                    <p><strong>Class Time:</strong> ${classInfo.classTime}</p>
+                    <p><strong>Class Type:</strong> ${classInfo.classType}</p>
+                    <p><strong>Tutor Name:</strong> ${classInfo.tutorName}</p>
+                    <p><strong>Duration:</strong> ${classInfo.duration} months</p>
+                `;
+
+                card.appendChild(cardHeader);
+                card.appendChild(cardBody);
+                cardListContainer.appendChild(card);
+            });
+
+            // Check if there are at least 3 schedules to display the scrolling message
+            if (scheduledClasses.length >= 3) {
+                document.getElementById("scrollingMessage").style.display = "block";
+            }
+        }
+
+        // Function to redirect to Page 2
+        function redirectToPage2() {
+            window.location.href = "page2.html";
+        }
+
+        // Display initial schedules on page load
+        displayScheduledClassesOnPageThree();
+    </script>
+</body>
+</html>

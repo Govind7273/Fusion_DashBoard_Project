@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Resume</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .section-content {
+            margin-top: 10px;
+        }
+
+        .section-title {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .skillset {
+            cursor: pointer;
+            border: 2px solid #333;
+            padding: 10px;
+            margin: 5px;
+            display: inline-block;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 5px;
+        }
+
+        .skillset:hover {
+            background-color: #333;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .flower {
+            display: none;
+            width: 50px;
+            height: 50px;
+            background-color: #f00;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        @keyframes bloom {
+            to {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Your Name</h1>
+        <p>Web Developer</p>
+    </header>
+
+    <section class="fade-in">
+        <div class="section-title">
+            <h2>Contact Information</h2>
+        </div>
+        <div class="section-content">
+            <p>Email: your.email@example.com</p>
+            <p>Phone: (555) 123-4567</p>
+            <p>LinkedIn: linkedin.com/in/yourname</p>
+            <p>GitHub: github.com/yourusername</p>
+        </div>
+    </section>
+
+    <section class="fade-in">
+        <div class="section-title">
+            <h2>Summary</h2>
+        </div>
+        <div class="section-content">
+            <p>Enthusiastic web developer with expertise in HTML, CSS, and JavaScript. Proven track record of delivering high-quality solutions.</p>
+        </div>
+    </section>
+
+    <section class="fade-in">
+        <div class="section-title">
+            <h2>Skills</h2>
+        </div>
+        <div class="section-content">
+            <div class="skillset" onclick="showFlower(this)">HTML</div>
+            <div class="skillset" onclick="showFlower(this)">CSS</div>
+            <div class="skillset" onclick="showFlower(this)">JavaScript</div>
+            <!-- Add more skills as needed -->
+        </div>
+        <div class="flower" id="flower"></div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.fade-in').forEach(function (element) {
+                element.classList.add('fade-in');
+            });
+        });
+
+        function showFlower(skill) {
+            var flower = document.getElementById('flower');
+            flower.style.display = 'block';
+            var rect = skill.getBoundingClientRect();
+            flower.style.top = rect.top + 'px';
+            flower.style.left = rect.left + 'px';
+            flower.style.animation = 'bloom 1s forwards';
+        }
+    </script>
+
+</body>
+</html>

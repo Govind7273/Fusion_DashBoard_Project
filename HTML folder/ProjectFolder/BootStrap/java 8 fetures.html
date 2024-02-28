@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Your Coding Website</title>
+    <style>
+        body {
+
+
+            
+            background-color: #2d2d2d; /* Dark background color */
+            color: #ffffff; /* White text color */
+            font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+        }
+
+        /* Adjust the width of columns as needed */
+        .left-column {
+            width: 15%;
+            background-color: #ffffff; /* White background for left column */
+            padding: 15px;
+            border-right: 1px solid #e0e0e0; /* Border between columns */
+        }
+
+        .list-group-item {
+            cursor: pointer;
+            color: #000000; /* Black text color for list items */
+        }
+
+        .list-group-item:hover {
+            background-color: #e0e0e0; /* Lighter grey background on hover */
+        }
+
+        .mid-column {
+            width: 65%; /* Adjusted width for better balance */
+            padding: 15px;
+        }
+
+        .right-column {
+            width: 20%; /* Adjusted width for better balance */
+            padding: 15px;
+        }
+
+        .advertisement-card {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        /* Code-like styling */
+        h2, ul, li {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        h2 {
+            color: #61dafb; /* React blue color for headings */
+            margin-bottom: 15px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        li {
+            color: #a6e22e; /* Syntax color for code-like list items */
+            margin-bottom: 5px;
+        }
+
+        /* Next and Previous button styling */
+        .navigation-buttons {
+            margin-top: 10px;
+        }
+
+        .btn {
+            color: #fff;
+            background-color: #007bff;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">SG Institute</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="OursuccessStory.html">Our Success Stories <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="aboutUs.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Course
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Java</a>
+                        <a class="dropdown-item" href="#">AWS</a>
+                        <a class="dropdown-item" href="#">React devloper</a>
+                        <a class="dropdown-item" href="#">FullStack devloper</a>
+
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Others</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Great event Coming soon</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><a href="login.html">Login</button>
+
+        </div>
+    </nav>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-2 left-column">
+            <div class="list-group">
+                <!-- Add your list items here with Bootstrap classes and data attributes -->
+                <a href="#" class="list-group-item list-group-item-action topic" data-content-id="lambda">Lambda Expressions</a>
+                <a href="#" class="list-group-item list-group-item-action topic" data-content-id="methodReferences">Method References</a>
+                <a href="#" class="list-group-item list-group-item-action topic" data-content-id="streamApi">Stream API</a>
+                <a href="#" class="list-group-item list-group-item-action topic" data-content-id="functionalInterface">Functional Interface</a>
+                <a href="#" class="list-group-item list-group-item-action topic" data-content-id="anonymousClass">Anonymous Class</a>
+                <!-- Add more items as needed -->
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="navigation-buttons">
+                <button class="btn btn-block" disabled>Previous</button>
+                <button class="btn btn-block" disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Middle Column -->
+        <div class="col-md-8 mid-column" id="mid-column">
+            <!-- Initial content -->
+            <h2>Welcome to Java 8 Features</h2>
+            <p>Click on a topic to view more information.</p>
+        </div>
+
+        <!-- Right Column for Advertisement -->
+        <div class="col-md-2 right-column">
+            <div class="card advertisement-card">
+                <div class="card-body">
+                    <!-- Advertisement content goes here -->
+                    <p>Advertisement</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // JavaScript code to handle topic clicks and update mid column content
+    $(document).ready(function () {
+        $('.topic').on('click', function (event) {
+            event.preventDefault();
+            var contentId = $(this).data('content-id');
+            updateMidColumnContent(contentId);
+        });
+
+        function updateMidColumnContent(contentId) {
+            // Example: Add content dynamically based on the selected topic
+            var content = '';
+            if (contentId === 'lambda') {
+                content = `
+                    <h2>Topic: Lambda Expressions</h2>
+                    <ul>
+                        <li>They can be used as arguments to methods that accept functional interfaces, such as the forEach method in the Iterable interface¹.</li>
+                        <li>They can access local variables of the enclosing scope, as long as they are effectively final².</li>
+                        <li>They can return a value or void, depending on the functional interface².</li>
+                        <!-- Add more points as needed -->
+                    </ul>`;
+            } else if (contentId === 'methodReferences') {
+                content = `
+                    <h2>Topic: Method References</h2>
+                    <ul>
+                        <li>They can be used to refer to static methods of a class, such as Integer::parseInt⁶.</li>
+                        <li>They can be used to refer to instance methods of a particular object, such as System.out::println⁶.</li>
+                        <li>They can be used to refer to instance methods of an arbitrary object of a particular type, such as String::length⁶.</li>
+                        <!-- Add more points as needed -->
+                    </ul>`;
+            } else if (contentId === 'streamApi') {
+                content = `
+                    <h2>Topic: Stream API</h2>
+                    <ul>
+                        <li>The Stream API provides a way to process collections of data in a declarative and functional style¹.</li>
+                        <li>A stream is a sequence of elements that supports various operations such as filtering, mapping, sorting, reducing, etc².</li>
+                        <li>A stream can be created from various sources such as arrays, collections, generators, or I/O channels².</li>
+                        <!-- Add more points as needed -->
+                    </ul>`;
+            } else if (contentId === 'functionalInterface') {
+                content = `
+                    <h2>Topic: Functional Interface</h2>
+                    <ul>
+                        <li>A functional interface is an interface that has exactly one abstract method³.</li>
+                        <li>A functional interface can have any number of default or static methods, which have an implementation³.</li>
+                        <li>A functional interface can be annotated with @FunctionalInterface to indicate its intention and generate a compile-time error if it violates the contract³.</li>
+                        <!-- Add more points as needed -->
+                    </ul>`;
+            } else if (contentId === 'anonymousClass') {
+                content = `
+                    <h2>Topic: Anonymous Class</h2>
+                    <ul>
+                        <li>An anonymous class is an inner class that is declared without a name⁴.</li>
+                        <li>An anonymous class can be created using the new keyword with an anonymous class expression, which can either extend a class or implement an interface⁴.</li>
+                        <li>An anonymous class can be useful when making an instance of an object with certain extras, such as overriding methods or adding fields, without having to subclass or create a separate class⁴.</li>
+                        <!-- Add more points as needed -->
+                    </ul>`;
+            }
+            // Update mid column content
+            $('#mid-column').html(content);
+        }
+    });
+</script>
+</body>
+</html>
+    
